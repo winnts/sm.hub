@@ -5,11 +5,9 @@ package LinkedIn.DOM;
  */
 public class Meta {
     public static final String META = "meta";
-    public static final String TIMESTAMP = "timestamp";
+    public String text;
 
-    public String timestamp;
-
-    public Meta(String timestamp) {
-        this.timestamp = timestamp;
+    public Meta(String text) {
+        this.text = text;
     }
 }

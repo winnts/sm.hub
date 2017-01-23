@@ -4,7 +4,7 @@ package LinkedIn.DOM;
  * Created by adyachenko on 23.01.17.
  */
 public class Header {
-    public static final String HEADER = "header ";
+    public static final String HEADER = "div[@class='header ']";
     private Headline headline;
     private Meta meta;
 
@@ -12,7 +12,7 @@ public class Header {
         return headline.text;
     }
     public String getMeta(){
-        return meta.timestamp;
+        return meta.text;
     }
 
     public Header(Headline headline, Meta meta) {
