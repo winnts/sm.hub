@@ -17,23 +17,23 @@ public class LoginHTMLUnit {
             webClient.getOptions().setJavaScriptEnabled(false);
             webClient.getOptions().setCssEnabled(false);
             webClient.getOptions().setThrowExceptionOnScriptError(false);
+
             final HtmlPage loginPage = webClient.getPage(url);
-//            webClient.waitForBackgroundJavaScript(10000);
-//            webClient.waitForBackgroundJavaScriptStartingBefore(10000);
             //Get Form By name
             final HtmlForm loginForm = loginPage.getFormByName("login");
             final HtmlSubmitInput button = loginForm.getInputByName("signin");
             final HtmlTextInput usernameTextField = loginForm.getInputByName("session_key");
             final HtmlPasswordInput passwordTextField = loginForm.getInputByName("session_password");
-            usernameTextField.setValueAttribute("andrey.dyachenko@outlook.com");//your Linkedin Username
-            passwordTextField.setValueAttribute("GfHjkm777");//Your Linkedin Password
+            usernameTextField.setValueAttribute(Credentials.LOGIN);//your Linkedin Username
+            passwordTextField.setValueAttribute(Credentials.PSWD);//Your Linkedin Password
             final HtmlPage responsePage = button.click();
             webClient.setAjaxController(new NicelyResynchronizingAjaxController());
             webClient.getOptions().setJavaScriptEnabled(true);
-            webClient.getOptions().setCssEnabled(true);
+            webClient.getOptions().setCssEnabled(false);
+
             String homeUrl = "https://www.linkedin.com/nhome/";
+
             final HtmlPage homePage = webClient.getPage(homeUrl);
-//            webClient.waitForBackgroundJavaScript(10000);
             webClient.waitForBackgroundJavaScriptStartingBefore(50000);
 
             for (int i = 0; i < 20; i++) {
@@ -45,15 +45,18 @@ public class LoginHTMLUnit {
                     homePage.wait(500);
                 }
             }
-            System.out.println("Element: " + homePage.getElementById("ozfeed"));
             DomElement ozFeed = homePage.getElementById("ozfeed");
-            DomNode feedUpdates = ozFeed.getFirstChild().getFirstChild().getFirstChild();
-            System.out.println(feedUpdates.asText());
 
+            Iterable<DomNode> feedAll = ozFeed.getFirstChild().getChildren();
 
+            for (DomNode domNode : feedAll) {
+                HtmlDivision content = (HtmlDivision) domNode.getByXPath("div[@class='content']").get(0);
+                HtmlDivision header = (HtmlDivision) content.getByXPath("div[@class='header ']").get(0);
+                HtmlHeading3 headline = (HtmlHeading3) header.getByXPath("h3[@class='headline']").get(0);
+                System.out.println(headline.asText());
+                System.out.println("##########################################################");
+            }
 
-            String htmlBody = homePage.getWebResponse().getContentAsString();
-//            System.out.println(htmlBody);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
