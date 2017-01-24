@@ -2,11 +2,14 @@ package LinkedIn;
 
 import LinkedIn.DOM.Header;
 import LinkedIn.DOM.TextEntity;
-import LinkedIn.Getters.GetHeader;
-import LinkedIn.Getters.GetTextEntity;
+import LinkedIn.Feeds.CompanyShareArticle;
+import LinkedIn.Feeds.MemberLikeShare;
+import LinkedIn.Feeds.PulseContentPool;
+import LinkedIn.Getters.*;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
+import org.apache.xpath.SourceTree;
 
 import java.util.List;
 
@@ -56,12 +59,55 @@ public class LoginHTMLUnit {
             GetHeader headers = new GetHeader();
             GetTextEntity textEntity = new GetTextEntity();
 
+
             for (DomNode domNode : feedAll) {
+                String feedName = domNode.getAttributes().getNamedItem("class").getNodeValue();
+                System.out.println(feedName);
                 HtmlDivision content = (HtmlDivision) domNode.getByXPath("div[@class='content']").get(0);
-                headers.getHeader(content);
-                textEntity.getTextEntity(content);
+
+                if (feedName.equals("feed-update company-share-article  has-snippets")){
+                    GetCompanyShareArticle companyShareArticle = new GetCompanyShareArticle();
+                    companyShareArticle.getCompanyShareArticle(content);
+                    for (CompanyShareArticle shareArticle : companyShareArticle.companyShareArticles) {
+                        System.out.println(shareArticle.header);
+                        System.out.println(shareArticle.headline);
+                        System.out.println(shareArticle.meta);
+                        System.out.println(shareArticle.textEntityShort);
+                        System.out.println(shareArticle.sideArticle);
+                    }
+                }
+
+                if (feedName.equals("feed-update member-like-share  has-snippets")) {
+                    GetMemberLikeShare memberLikeShare = new GetMemberLikeShare();
+                    memberLikeShare.getMemberLiceShare(content);
+                    for (MemberLikeShare likeShare : memberLikeShare.memberLikeShares) {
+                        System.out.println(likeShare.header);
+                        System.out.println(likeShare.meta);
+                        System.out.println(likeShare.headline);
+                        System.out.println(likeShare.author);
+                        System.out.println(likeShare.textEntity);
+
+                    }
+                }
+
+                if (feedName.equals("feed-update linkedin:pulseContentPool  has-snippets")) {
+                        GetPulseContentPool pulseContentPool = new GetPulseContentPool();
+                        pulseContentPool.getPulseContentPool(content);
+                        for (PulseContentPool contentPool : pulseContentPool.pulseContentPools) {
+                            System.out.println(contentPool.header);
+                            System.out.println(contentPool.meta);
+                            System.out.println(contentPool.headline);
+                            System.out.println(contentPool.contentDescription);
+                        }
+                }
+
+
+                /*headers.getHeader(content);
+                textEntity.getTextEntity(content);*/
             }
-            for (Header header : headers.headers) {
+
+
+            /*for (Header header : headers.headers) {
                 System.out.println(header.getMeta());
                 System.out.println(header.getHeadline());
                 System.out.println(header.getHeadlineSingleLine());
@@ -72,7 +118,7 @@ public class LoginHTMLUnit {
                 System.out.println("########################################");
 
             }
-
+*/
 
         } catch (Exception ex) {
             ex.printStackTrace();
