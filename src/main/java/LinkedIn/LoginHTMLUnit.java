@@ -1,5 +1,9 @@
 package LinkedIn;
 
+import LinkedIn.DOM.Header;
+import LinkedIn.DOM.TextEntity;
+import LinkedIn.Getters.GetHeader;
+import LinkedIn.Getters.GetTextEntity;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
@@ -49,13 +53,26 @@ public class LoginHTMLUnit {
 
             Iterable<DomNode> feedAll = ozFeed.getFirstChild().getChildren();
 
+            GetHeader headers = new GetHeader();
+            GetTextEntity textEntity = new GetTextEntity();
+
             for (DomNode domNode : feedAll) {
                 HtmlDivision content = (HtmlDivision) domNode.getByXPath("div[@class='content']").get(0);
-                HtmlDivision header = (HtmlDivision) content.getByXPath("div[@class='header ']").get(0);
-                HtmlHeading3 headline = (HtmlHeading3) header.getByXPath("h3[@class='headline']").get(0);
-                System.out.println(headline.asText());
-                System.out.println("##########################################################");
+                headers.getHeader(content);
+                textEntity.getTextEntity(content);
             }
+            for (Header header : headers.headers) {
+                System.out.println(header.getMeta());
+                System.out.println(header.getHeadline());
+                System.out.println(header.getHeadlineSingleLine());
+                System.out.println("########################################");
+            }
+            for (TextEntity entity : textEntity.textEntities) {
+                System.out.println(entity.getText());
+                System.out.println("########################################");
+
+            }
+
 
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -1,11 +1,10 @@
 package LinkedIn.DOM;
 
 /**
- * Created by adyachenko on 23.01.17.
+ * Created by adyachenko on 24.01.17.
  */
-public class Headline {
-    public static final String HEADLINE = "h3[@class='headline']";
-
+public class TitleContainer {
+    public static final String TITLE_CONTAINER = "div[@class='title-container']";
     private String text;
 
     public String getText() {
