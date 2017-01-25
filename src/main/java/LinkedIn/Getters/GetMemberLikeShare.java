@@ -1,5 +1,6 @@
 package LinkedIn.Getters;
 
+import LinkedIn.DOM.DomClasses;
 import LinkedIn.Feeds.MemberLikeShare;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading3;
@@ -13,15 +14,18 @@ import java.util.List;
 public class GetMemberLikeShare {
     public List<MemberLikeShare> memberLikeShares = new ArrayList<>();
 
-    public List<MemberLikeShare> getMemberLiceShare (HtmlDivision content) {
-        HtmlDivision header = (HtmlDivision) content.getByXPath(MemberLikeShare.HEADER).get(0);
-        HtmlDivision meta = (HtmlDivision) header.getByXPath(MemberLikeShare.META).get(0);
-        HtmlHeading3 headline = (HtmlHeading3) header.getByXPath(MemberLikeShare.HEADLINE).get(0);
-        HtmlDivision author = (HtmlDivision) content.getByXPath(MemberLikeShare.AUTHOR).get(0);
-        HtmlDivision textEntity = (HtmlDivision) content.getByXPath(MemberLikeShare.TEXT_ENTITY).get(0);
+    public List<MemberLikeShare> getMemberLikeShare(HtmlDivision content) {
+        HtmlDivision header = (HtmlDivision) content.getByXPath(DomClasses.HEADER).get(0);
+        HtmlDivision meta = (HtmlDivision) header.getByXPath(DomClasses.META).get(0);
+        HtmlHeading3 headline = (HtmlHeading3) header.getByXPath(DomClasses.HEADLINE).get(0);
+        HtmlDivision viralEntity = (HtmlDivision) content.getByXPath(DomClasses.VIRAL_ENTITY).get(0);
+        HtmlDivision viralEntityContent = (HtmlDivision) viralEntity.getByXPath(DomClasses.CONTENT).get(0);
+        HtmlDivision author = (HtmlDivision) viralEntityContent.getByXPath(DomClasses.AUTHOR).get(0);
+        HtmlDivision authorContent = (HtmlDivision) author.getByXPath(DomClasses.CONTENT).get(0);
+//        HtmlDivision textEntity = (HtmlDivision) content.getByXPath(MemberLikeShare.TEXT_ENTITY).get(0);
 
         memberLikeShares.add(new MemberLikeShare(header.asText(), meta.asText(), headline.asText(),
-                author.asText(), textEntity.asText()));
+                author.asText(), authorContent.asText()));
 
         return memberLikeShares;
 

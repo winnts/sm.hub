@@ -1,5 +1,6 @@
 package LinkedIn.Getters;
 
+import LinkedIn.DOM.DomClasses;
 import LinkedIn.Feeds.CompanyShareArticle;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading3;
@@ -14,11 +15,11 @@ public class GetCompanyShareArticle {
     public List<CompanyShareArticle> companyShareArticles = new ArrayList<>();
 
     public List<CompanyShareArticle> getCompanyShareArticle (HtmlDivision content) {
-        HtmlDivision header = (HtmlDivision) content.getByXPath(CompanyShareArticle.HEADER).get(0);
-        HtmlDivision meta = (HtmlDivision) header.getByXPath(CompanyShareArticle.META).get(0);
-        HtmlHeading3 headline = (HtmlHeading3) header.getByXPath(CompanyShareArticle.HEADLINE).get(0);
-        HtmlDivision textEntityShort = (HtmlDivision) content.getByXPath(CompanyShareArticle.TEXT_ENTITY_SHORT).get(0);
-        HtmlDivision sideArticle = (HtmlDivision) content.getByXPath(CompanyShareArticle.SIDE_ARTICLE).get(0);
+        HtmlDivision header = new GetHeader().getHeader(content);
+        HtmlDivision meta = new GetMeta().getMeta(header);
+        HtmlHeading3 headline = new GetHeadline().getHeadline(header);
+        HtmlDivision textEntityShort = new GetTextEntity().getTextEntityShort(content);
+        HtmlDivision sideArticle = new GetSideArticle().getSideArticle(content);
 
         companyShareArticles.add(new CompanyShareArticle(header.asText(), meta.asText(), headline.asText(),
                 textEntityShort.asText(), sideArticle.asText()));

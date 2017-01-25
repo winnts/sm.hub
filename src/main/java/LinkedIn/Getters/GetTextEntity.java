@@ -1,5 +1,6 @@
 package LinkedIn.Getters;
 
+import LinkedIn.DOM.DomClasses;
 import LinkedIn.DOM.TextEntity;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 
@@ -10,18 +11,13 @@ import java.util.List;
  * Created by adyachenko on 24.01.17.
  */
 public class GetTextEntity {
-    public List<TextEntity> textEntities = new ArrayList<>();
 
-    public List<TextEntity> getTextEntity (HtmlDivision content) {
-        String result = "";
-        HtmlDivision textEntity = null;
-        try {
-            textEntity = (HtmlDivision) content.getByXPath(TextEntity.TEXTENTITY).get(0);
-            result = textEntity.asText();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        textEntities.add(new TextEntity(result));
-        return textEntities;
+    public HtmlDivision getTextEntity (HtmlDivision content) {
+        HtmlDivision textEntity = (HtmlDivision) content.getByXPath(DomClasses.TEXT_ENTITY).get(0);
+        return textEntity;
+    }
+    public HtmlDivision getTextEntityShort (HtmlDivision content) {
+        HtmlDivision textEntityShort = (HtmlDivision) content.getByXPath(DomClasses.TEXT_ENTITY_SHORT).get(0);
+        return textEntityShort;
     }
 }
