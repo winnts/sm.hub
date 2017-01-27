@@ -8,7 +8,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlDivision;
  */
 public class GetSideArticle {
     public HtmlDivision getSideArticle (HtmlDivision content) {
-        HtmlDivision sideArticle = (HtmlDivision) content.getByXPath(DomClasses.SIDE_ARTICLE).get(0);
+        HtmlDivision sideArticle = null;
+        try {
+            sideArticle = (HtmlDivision) content.getByXPath(DomClasses.SIDE_ARTICLE).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
         return sideArticle;
     }
 }

@@ -11,13 +11,17 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import org.apache.xpath.SourceTree;
 
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Created by win on 11.01.17.
  */
 public class LoginHTMLUnit {
     public static void main(String[] args) {
+        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
+        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
         try {
             String url = "https://www.linkedin.com/uas/login?goback=&trk=hb_signin";
             final WebClient webClient = new WebClient();
@@ -50,7 +54,7 @@ public class LoginHTMLUnit {
             String homeUrl = "https://www.linkedin.com/nhome/";
             final HtmlPage homePage = webClient.getPage(homeUrl);
             //Waiting for page loading
-            webClient.waitForBackgroundJavaScriptStartingBefore(100000);
+            webClient.waitForBackgroundJavaScriptStartingBefore(5000);
             for (int i = 0; i < 20; i++) {
                 System.out.println("Condition: " + homePage.getElementById("ozfeed").isDisplayed());
                 if (homePage.getElementById("ozfeed").isDisplayed()) {
@@ -59,6 +63,9 @@ public class LoginHTMLUnit {
                 synchronized (homePage) {
                     homePage.wait(5000);
                 }
+            }
+            try(PrintWriter out = new PrintWriter("page.html")){
+                out.println(homePage.asXml());
             }
             //Getting feed
             DomElement ozFeed = homePage.getElementById("ozfeed");

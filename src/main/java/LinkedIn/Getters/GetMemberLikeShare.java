@@ -22,10 +22,23 @@ public class GetMemberLikeShare {
         HtmlDivision viralEntityContent = (HtmlDivision) viralEntity.getByXPath(DomClasses.CONTENT).get(0);
         HtmlDivision author = (HtmlDivision) viralEntityContent.getByXPath(DomClasses.AUTHOR).get(0);
         HtmlDivision authorContent = (HtmlDivision) author.getByXPath(DomClasses.CONTENT).get(0);
-//        HtmlDivision textEntity = (HtmlDivision) content.getByXPath(MemberLikeShare.TEXT_ENTITY).get(0);
+        HtmlDivision textEntity = null;
+
+        try {
+            textEntity = (HtmlDivision) viralEntityContent.getByXPath(DomClasses.TEXT_ENTITY).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        try {
+            textEntity = (HtmlDivision) viralEntityContent.getByXPath(DomClasses.TEXT_ENTITY_SHORT).get(0);
+
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+               }
+
 
         memberLikeShares.add(new MemberLikeShare(header.asText(), meta.asText(), headline.asText(),
-                author.asText(), authorContent.asText()));
+                author.asText(), textEntity.asText()));
 
         return memberLikeShares;
 
