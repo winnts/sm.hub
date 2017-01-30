@@ -5,12 +5,14 @@ package LinkedIn.Feeds;
  */
 public class PulseContentPool {
 
+    public String feedName;
     public String header;
     public String meta;
     public String headline;
     public String contentDescription;
 
     public PulseContentPool(String header, String meta, String headline, String contentDescription) {
+        this.feedName = "pulseContentPool";
         this.header = header;
         this.meta = meta;
         this.headline = headline;

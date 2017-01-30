@@ -5,6 +5,7 @@ package LinkedIn.Feeds;
  */
 public class MemberLikeShare {
 
+    public String feedName;
     public String header;
     public String meta;
     public String headline;
@@ -12,6 +13,7 @@ public class MemberLikeShare {
     public String textEntity;
 
     public MemberLikeShare(String header, String meta, String headline, String author, String textEntity) {
+        this.feedName = "memberLikeShare";
         this.header = header;
         this.meta = meta;
         this.headline = headline;

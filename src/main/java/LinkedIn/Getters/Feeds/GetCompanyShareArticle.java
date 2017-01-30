@@ -1,7 +1,7 @@
-package LinkedIn.Getters;
+package LinkedIn.Getters.Feeds;
 
-import LinkedIn.DOM.DomClasses;
 import LinkedIn.Feeds.CompanyShareArticle;
+import LinkedIn.Getters.Elements.*;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading3;
 

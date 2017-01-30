@@ -1,4 +1,4 @@
-package LinkedIn.Getters;
+package LinkedIn.Getters.Elements;
 
 import LinkedIn.DOM.DomClasses;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;

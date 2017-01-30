@@ -5,10 +5,12 @@ package LinkedIn.Feeds;
  */
 public class ManyMembersConnectMembers {
 
+    public String feedName;
     public String headline;
     public String rollup;
 
     public ManyMembersConnectMembers(String headline, String rollup) {
+        this.feedName = "manyMemberConnectMembers";
         this.headline = headline;
         this.rollup = rollup;
     }

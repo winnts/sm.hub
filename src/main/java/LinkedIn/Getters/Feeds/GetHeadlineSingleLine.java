@@ -1,4 +1,4 @@
-package LinkedIn.Getters;
+package LinkedIn.Getters.Feeds;
 
 import LinkedIn.DOM.DomClasses;
 import LinkedIn.DOM.Headline;

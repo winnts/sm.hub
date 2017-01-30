@@ -1,4 +1,4 @@
-package LinkedIn.Getters;
+package LinkedIn.Getters.Feeds;
 
 import LinkedIn.DOM.DomClasses;
 import LinkedIn.Feeds.PulseContentPool;
@@ -15,13 +15,18 @@ public class GetPulseContentPool {
     public List<PulseContentPool> pulseContentPools = new ArrayList<>();
 
     public List<PulseContentPool> getPulseContentPool (HtmlDivision content) {
+        String sideAsticleText = "";
         HtmlDivision header = (HtmlDivision) content.getByXPath(DomClasses.HEADER).get(0);
         HtmlDivision meta = (HtmlDivision) header.getByXPath(DomClasses.META).get(0);
         HtmlHeading3 headline = (HtmlHeading3) header.getByXPath(DomClasses.HEADLINE).get(0);
-        HtmlDivision contentDescription = (HtmlDivision) content.getByXPath(DomClasses.SIDE_ARTICLE).get(0);
 
+        try {
+            HtmlDivision contentDescription = (HtmlDivision) content.getByXPath(DomClasses.SIDE_ARTICLE).get(0);
+            sideAsticleText = contentDescription.asText();
+        } catch (IndexOutOfBoundsException e)
+        {}
         pulseContentPools.add(new PulseContentPool(header.asText(), meta.asText(), headline.asText(),
-                contentDescription.asText()));
+                sideAsticleText));
 
         return pulseContentPools;
     }

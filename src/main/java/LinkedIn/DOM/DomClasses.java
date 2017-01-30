@@ -12,6 +12,7 @@ public class DomClasses {
     public static final String VIRAL_ENTITY = "div[@class='viral-entity']";
     public static final String CONTENT = "div[@class='content']";
     public static final String AUTHOR = "div[@class='author']";
+    public static final String RECENT_POST = "div[@class='recent-post']";
     public static final String TEXT_ENTITY = "div[@class='text-entity']";
     public static final String TEXT_ENTITY_SHORT = "div[normalize-space(@class)='text-entity shortened']";
     public static final String HEADLINE_SINGLELINE = "h3[@class='headline single-line']";
