@@ -20,7 +20,6 @@ public class LoginFB {
         scopeBuilder.addPermission(UserDataPermissions.USER_STATUS);
         scopeBuilder.addPermission(UserDataPermissions.USER_ABOUT_ME);
 
-
         FacebookClient.AccessToken accessToken =
                 new DefaultFacebookClient(Version.VERSION_2_8).obtainAppAccessToken("252184415193367", "7031982988f1ebc9e47a974fe21e1d86");
 
