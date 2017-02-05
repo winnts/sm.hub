@@ -58,7 +58,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>WebApp.MonitorApp</mainClass>
+                                    <mainClass>WebApp.SmHubApp</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -78,6 +78,17 @@
             <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
             <version>2.24</version>
+            <exclusions>
+        <exclusion>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-io</artifactId>
+        </exclusion>
+
+    </exclusions>
         </dependency>
         <dependency>
           <!-- jsoup HTML parser library @ http://jsoup.org/ -->
@@ -119,9 +130,9 @@
             <url>https://maven.java.net/content/repositories/snapshots/</url>
             <layout>default</layout>
         </repository>
-        <repository>
+        <!--<repository>
             <id>myMavenRepo.read</id>
             <url>https://mymavenrepo.com/repo/MhahffVv7IJiIYMpGudh/</url>
-        </repository>
+        </repository>-->
     </repositories>
 </project>

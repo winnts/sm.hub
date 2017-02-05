@@ -12,7 +12,7 @@ import java.util.*;
  * Created by Andrey Dyachenko on 25.01.17.
  */
 public class ParseFeeds {
-    public static void parseFeeds (Iterable<DomNode> feedAll) {
+    public List<Object> parseFeeds(Iterable<DomNode> feedAll) {
         List<Object> allFeeds = new ArrayList<>();
         for (DomNode domNode : feedAll) {
             String feedName = domNode.getAttributes().getNamedItem("class").getNodeValue();
@@ -44,16 +44,15 @@ public class ParseFeeds {
                 allFeeds.add(new ArrayList(memberPeopleFollowMember.getMemberPeopleFollowMembers(content)));
             }
 
-            if (feedName.equals("feed-update member-share-article has-snippets")){
-//                GetMem
+            if (feedName.equals("feed-update member-share-article has-snippets")) {
             }
-
-            System.out.println("####################");
         }
-        try(PrintWriter out = new PrintWriter("result.json")){
+        try (PrintWriter out = new PrintWriter("result.json")) {
             Gson t = new Gson();
             String jsonFeed = t.toJson(allFeeds);
             out.println(jsonFeed);
-    }catch (Exception e) {}}
-
+        } catch (Exception e) {
+        }
+        return allFeeds;
     }
+}

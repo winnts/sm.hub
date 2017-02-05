@@ -1,25 +1,19 @@
 package LinkedIn;
 
-import LinkedIn.DOM.Header;
-import LinkedIn.DOM.TextEntity;
-import LinkedIn.Feeds.CompanyShareArticle;
-import LinkedIn.Feeds.MemberLikeShare;
-import LinkedIn.Feeds.PulseContentPool;
-import LinkedIn.Getters.*;
+
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
-import org.apache.xpath.SourceTree;
 
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Level;
 
 /**
  * Created by win on 11.01.17.
  */
 public class LoginHTMLUnit {
-    public static void main(String[] args) {
+    public Iterable<DomNode> getDomNode (String login, String passwd) {
+        Iterable<DomNode> feedAll = null;
         java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
         try {
@@ -42,8 +36,8 @@ public class LoginHTMLUnit {
             final HtmlSubmitInput button = loginForm.getInputByName("signin");
             final HtmlTextInput usernameTextField = loginForm.getInputByName("session_key");
             final HtmlPasswordInput passwordTextField = loginForm.getInputByName("session_password");
-            usernameTextField.setValueAttribute(Credentials.LOGIN);//your Linkedin Username
-            passwordTextField.setValueAttribute(Credentials.PSWD);//Your Linkedin Password
+            usernameTextField.setValueAttribute(login);//your Linkedin Username
+            passwordTextField.setValueAttribute(passwd);//Your Linkedin Password
             final HtmlPage responsePage = button.click();
 
             //Enable JS for home page
@@ -70,10 +64,11 @@ public class LoginHTMLUnit {
             //Getting feed
             DomElement ozFeed = homePage.getElementById("ozfeed");
             //Getting inner feeds
-            Iterable<DomNode> feedAll = ozFeed.getFirstChild().getChildren();
-            ParseFeeds.parseFeeds(feedAll);
+            feedAll = ozFeed.getFirstChild().getChildren();
+//            ParseFeeds.parseFeeds(feedAll);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return feedAll;
     }
 }
