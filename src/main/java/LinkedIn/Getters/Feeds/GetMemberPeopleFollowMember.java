@@ -17,14 +17,12 @@ public class GetMemberPeopleFollowMember {
     public List<MemberPeopleFollowMember> getMemberPeopleFollowMembers (HtmlDivision content){
         String sideArticleContent = "";
         HtmlDivision header = new GetHeader().getHeader(content);
-        HtmlDivision meta = new GetMeta().getMeta(header);
-        HtmlHeading3 headline = new GetHeadline().getHeadline(header);
+        String meta = new GetMeta().getMeta(header);
+        String headline = new GetHeadline().getHeadline(header);
         HtmlDivision recentPost = new GetRecentPost().getRecentPost(content);
         HtmlDivision author = new GetAuthor().getAuthor(recentPost);
-        HtmlDivision sideArticle = new GetSideArticle().getSideArticle(recentPost);
-        if (sideArticle != null) {sideArticleContent = sideArticle.asText();}
-        memberPeopleFollowMembers.add(new MemberPeopleFollowMember(header.asText(), headline.asText(),
-                author.asText(), sideArticleContent));
+        String sideArticle = new GetSideArticle().getSideArticle(recentPost);
+        memberPeopleFollowMembers.add(new MemberPeopleFollowMember(header.asText(), headline, author.asText(), sideArticle));
 
         return memberPeopleFollowMembers;
     }

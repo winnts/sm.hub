@@ -24,6 +24,11 @@ public class ParseFeeds {
                 allFeeds.add(new ArrayList(companyShareArticle.getCompanyShareArticle(content)));
             }
 
+            if (feedName.equals("feed-update company-share-article is-sponsored  has-snippets")) {
+                GetCompanyShareArticle companyShareArticle = new GetCompanyShareArticle();
+                allFeeds.add(new ArrayList(companyShareArticle.getCompanyShareArticle(content)));
+            }
+
             if (feedName.equals("feed-update member-like-share  has-snippets")) {
                 GetMemberLikeShare memberLikeShare = new GetMemberLikeShare();
                 allFeeds.add(new ArrayList(memberLikeShare.getMemberLikeShare(content)));
@@ -44,15 +49,26 @@ public class ParseFeeds {
                 allFeeds.add(new ArrayList(memberPeopleFollowMember.getMemberPeopleFollowMembers(content)));
             }
 
-            if (feedName.equals("feed-update member-share-article has-snippets")) {
+            if (feedName.equals("feed-update member-share-article  has-snippets")) {
+                GetMemberShareArticle memberShareArticle = new GetMemberShareArticle();
+                allFeeds.add(new ArrayList(memberShareArticle.getMemberShareArticles(content)));
             }
+            if (feedName.equals("feed-update member-reshare-article  has-snippets")) {
+                GetMemberReShareArticle memberReShareArticle = new GetMemberReShareArticle();
+                allFeeds.add(new ArrayList(memberReShareArticle.getMemberReShareArticles(content)));
+            }
+
         }
-        try (PrintWriter out = new PrintWriter("result.json")) {
+        try (PrintWriter out = new PrintWriter("result.html")) {
             Gson t = new Gson();
             String jsonFeed = t.toJson(allFeeds);
             out.println(jsonFeed);
         } catch (Exception e) {
         }
         return allFeeds;
+    }
+
+    public static void main(String[] args) {
+        new ParseFeeds().parseFeeds(new LoginHTMLUnit().getDomNode("radim.chorba@gmail.com", "k1yr0dr2ecgtiyf!1"));
     }
 }

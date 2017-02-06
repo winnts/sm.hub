@@ -7,13 +7,15 @@ import com.gargoylesoftware.htmlunit.html.HtmlDivision;
  * Created by Andrey Dyachenko on 25.01.17.
  */
 public class GetSideArticle {
-    public HtmlDivision getSideArticle (HtmlDivision content) {
+    public String getSideArticle (HtmlDivision content) {
+        String sideArticleContent = "";
         HtmlDivision sideArticle = null;
         try {
             sideArticle = (HtmlDivision) content.getByXPath(DomClasses.SIDE_ARTICLE).get(0);
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
-        return sideArticle;
+        if(sideArticle!=null){sideArticleContent=sideArticle.asText();}
+        return sideArticleContent;
     }
 }

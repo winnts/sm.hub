@@ -32,12 +32,17 @@ public class SmHubAppFeeds {
 
     @GET
     @Timed
-    public SendFeeds sendData(@QueryParam("accessToken") String accessToken,
+    public SendFeeds sendData(@QueryParam("accessToken") Optional<String> accessToken,
                               @QueryParam("linkedName") String linkedName,
                               @QueryParam("linkedPass") String linkedPass) throws Exception {
+        if (accessToken.isPresent()){
+            return new SendFeeds(counter.incrementAndGet(),
+                    new GetFeed().getFeed(new LoginFB().getFBClient(accessToken.orElse(""))),
+                    new ParseFeeds().parseFeeds(new LoginHTMLUnit().getDomNode(linkedName, linkedPass)));
+        }else {
 
         return new SendFeeds(counter.incrementAndGet(),
-                  new GetFeed().getFeed(new LoginFB().getFBClient(accessToken)),
+                  null,
                   new ParseFeeds().parseFeeds(new LoginHTMLUnit().getDomNode(linkedName, linkedPass)));
-    }
+    }}
 }

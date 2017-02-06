@@ -12,12 +12,20 @@ import java.util.List;
  */
 public class GetTextEntity {
 
-    public HtmlDivision getTextEntity (HtmlDivision content) {
-        HtmlDivision textEntity = (HtmlDivision) content.getByXPath(DomClasses.TEXT_ENTITY).get(0);
-        return textEntity;
-    }
-    public HtmlDivision getTextEntityShort (HtmlDivision content) {
-        HtmlDivision textEntityShort = (HtmlDivision) content.getByXPath(DomClasses.TEXT_ENTITY_SHORT).get(0);
-        return textEntityShort;
+    public String getTextEntity (HtmlDivision content) {
+        String textEntityContent = "";
+        HtmlDivision textEntity = null;
+        try {
+            textEntity = (HtmlDivision) content.getByXPath(DomClasses.TEXT_ENTITY).get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            textEntity = (HtmlDivision) content.getByXPath(DomClasses.TEXT_ENTITY_SHORT).get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (textEntity!=null){textEntityContent=textEntity.asText();}
+        return textEntityContent;
     }
 }

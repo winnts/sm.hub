@@ -8,8 +8,15 @@ import com.gargoylesoftware.htmlunit.html.HtmlDivision;
  * Created by adyachenko on 24.01.17.
  */
 public class GetMeta {
-    public HtmlDivision getMeta (HtmlDivision header) {
-        HtmlDivision meta = (HtmlDivision) header.getByXPath(DomClasses.META).get(0);
-        return meta;
+    public String getMeta (HtmlDivision header) {
+        String metaContent = "";
+        HtmlDivision meta = null;
+        try {
+            meta = (HtmlDivision) header.getByXPath(DomClasses.META).get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(meta!=null){metaContent=meta.asText();}
+        return metaContent;
     }
 }

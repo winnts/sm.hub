@@ -36,12 +36,13 @@
                         <input type="password" class="form-control" id="linkedPwd">
                     </div>
                     <div class="form-group">
-                    <fb:login-button scope="public_profile,email,user_posts" onlogin="checkLoginState();">
+                    <fb:login-button scope="public_profile,email,user_posts,user_likes" onlogin="checkLoginState();">
                     </fb:login-button>
                     </div>
 
                     <div class="form-group">
-                    <button type="button" class="btn btn-primary" onclick="getFeed()" id="getFeeds">Get Feeds</button>
+                        <button type="button" class="btn btn-primary" onclick="getLIFeed()" id="getFeedLI">Get LinkedIn</button>
+                        <button type="button" class="btn btn-primary" onclick="getFeed()" id="getFeeds">Get All</button>
                     </div>
                 </div>
             </div>
@@ -81,6 +82,7 @@
 
 </h6>
 <script type = "text/javascript" src="getFeeds.js"></script>
+<script type = "text/javascript" src="getLIFeeds.js"></script>
 <!--<script type = "text/javascript" src="getApplications.js"></script>-->
 <!--<script type = "text/javascript" src="getLicByHost.js"></script>-->
 <script type="text/javascript">
@@ -97,5 +99,27 @@ function getFeed() {
 }
 </script>
 
+<script>
+    function getLIFeed() {
+        var linkedInName;
+        var linkedInPass;
+//        var accessToken;
+
+        linkedInName = $("#linkedUsr").val();
+        linkedInPass = $("#linkedPwd").val();
+//        accessToken = FB.getAccessToken();
+
+        getLIFeeds(linkedInName, linkedInPass);
+    }
+</script>
+
+
+<script>
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+</script>
 </body>
 </html>
