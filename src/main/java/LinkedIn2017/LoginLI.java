@@ -13,23 +13,22 @@ import java.util.logging.Level;
  * Created by win on 11.01.17.
  */
 public class LoginLI {
+    public WebClient webClient = new WebClient();
 
-    public DomElement getFeed (WebClient webClient) throws Exception {
+    public DomNode getFeed (HtmlPage homePage) throws Exception {
         //Enable JS for home page
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
         webClient.getOptions().setJavaScriptEnabled(true);
         webClient.getOptions().setCssEnabled(false);
 
-        String homeUrl = "https://www.linkedin.com/nhome/";
-        final HtmlPage homePage = webClient.getPage(homeUrl);
         //Waiting for page loading
         webClient.waitForBackgroundJavaScriptStartingBefore(5000);
         for (int i = 0; i < 20; i++) {
-            if (homePage.getElementById("ozfeed").isDisplayed()) {
-                System.out.println("Condition: " + homePage.getElementById("ozfeed").isDisplayed());
+            if (homePage.getElementById("voyager-feed").isDisplayed()) {
+                System.out.println("Condition: " + homePage.getElementById("voyager-feed").isDisplayed());
                 break;
             }
-            if (homePage.getElementById("core-rail").isDisplayed())
+//            if (homePage.getElementById("core-rail").isDisplayed())
             synchronized (homePage) {
                 homePage.wait(5000);
             }
@@ -38,20 +37,23 @@ public class LoginLI {
             out.println(homePage.asXml());
         }
         //Getting feed
-        DomElement ozFeed = homePage.getElementById("ozfeed");
+        DomNode feed = (DomNode) homePage.getByXPath("div[@id='ember*']").get(0);
+
+
+//        DomElement ozFeed = homePage.getElementById("ozfeed");
         //Getting inner feeds
-        Iterable<DomNode>feedAll = ozFeed.getFirstChild().getChildren();
+//        Iterable<DomNode>feedAll = ozFeed.getFirstChild().getChildren();
 //            ParseFeeds.parseFeeds(feedAll);
-    return ozFeed;
+    return feed;
     }
 
-    public WebClient login (String login, String passwd) throws IOException{
+    public HtmlPage login (String login, String passwd) throws IOException{
         Iterable<DomNode> feedAll = null;
         java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 
             String url = "https://www.linkedin.com/uas/login?goback=&trk=hb_signin";
-            final WebClient webClient = new WebClient();
+//            final WebClient webClient = new WebClient();
 
             //Disabling JS for Login page
             webClient.getOptions().setJavaScriptEnabled(false);
@@ -72,7 +74,19 @@ public class LoginLI {
             usernameTextField.setValueAttribute(login);//your Linkedin Username
             passwordTextField.setValueAttribute(passwd);//Your Linkedin Password
             final HtmlPage responsePage = button.click();
+        //Enable JS for home page
+        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.getOptions().setCssEnabled(false);
+            String homeUrl = "https://www.linkedin.com/nhome/";
+            final HtmlPage homePage = webClient.getPage(homeUrl);
 
-        return webClient;
+
+
+        return homePage;
+    }
+
+    public static void main(String[] args) throws Exception{
+        new LoginLI().getFeed(new LoginLI().login("andrey.dyachenko@outlook.com", "GfHjkm777"));
     }
 }
