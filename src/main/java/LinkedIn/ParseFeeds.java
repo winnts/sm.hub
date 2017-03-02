@@ -69,6 +69,6 @@ public class ParseFeeds {
     }
 
     public static void main(String[] args) {
-        new ParseFeeds().parseFeeds(new LoginHTMLUnit().getDomNode("radim.chorba@gmail.com", "k1yr0dr2ecgtiyf!1"));
+        new ParseFeeds().parseFeeds(new LoginHTMLUnit().getDomNode("", ""));
     }
 }

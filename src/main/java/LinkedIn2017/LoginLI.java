@@ -21,23 +21,24 @@ public class LoginLI {
         webClient.getOptions().setJavaScriptEnabled(true);
         webClient.getOptions().setCssEnabled(false);
 
-        //Waiting for page loading
-        webClient.waitForBackgroundJavaScriptStartingBefore(5000);
-        for (int i = 0; i < 20; i++) {
-            if (homePage.getElementById("voyager-feed").isDisplayed()) {
-                System.out.println("Condition: " + homePage.getElementById("voyager-feed").isDisplayed());
-                break;
-            }
-//            if (homePage.getElementById("core-rail").isDisplayed())
-            synchronized (homePage) {
-                homePage.wait(5000);
-            }
-        }
-        try (PrintWriter out = new PrintWriter("page.html")) {
-            out.println(homePage.asXml());
-        }
+//        //Waiting for page loading
+//        webClient.waitForBackgroundJavaScriptStartingBefore(15000);
+//        for (int i = 0; i < 20; i++) {
+//            if (homePage.getElementById("voyager-feed").isDisplayed()) {
+//                System.out.println("Condition: " + homePage.getElementById("voyager-feed").isDisplayed());
+//                break;
+//            }
+////            if (homePage.getElementById("core-rail").isDisplayed())
+//            synchronized (homePage) {
+//                homePage.wait(5000);
+//            }
+//        }
+//        try (PrintWriter out = new PrintWriter("page.html")) {
+//            out.println(homePage.asXml());
+//        }
         //Getting feed
-        DomNode feed = (DomNode) homePage.getByXPath("div[@id='ember*']").get(0);
+        DomNode feed = (DomNode) homePage.getByXPath("//div[@class='ember-view']" +
+                "//div[@class='application-outlet ']//div[@class='core-rail']//div[@class='ember-view']").get(0);
 
 
 //        DomElement ozFeed = homePage.getElementById("ozfeed");
@@ -47,7 +48,7 @@ public class LoginLI {
     return feed;
     }
 
-    public HtmlPage login (String login, String passwd) throws IOException{
+    public HtmlPage login (String login, String passwd) throws IOException, InterruptedException {
         Iterable<DomNode> feedAll = null;
         java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
@@ -77,16 +78,35 @@ public class LoginLI {
         //Enable JS for home page
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
         webClient.getOptions().setJavaScriptEnabled(true);
-        webClient.getOptions().setCssEnabled(false);
-            String homeUrl = "https://www.linkedin.com/nhome/";
+        webClient.getOptions().setCssEnabled(true);
+        webClient.waitForBackgroundJavaScriptStartingBefore(15000);
+
+            String homeUrl = "https://www.linkedin.com/feed/";
             final HtmlPage homePage = webClient.getPage(homeUrl);
 
-
+//Waiting for page loading
+        webClient.waitForBackgroundJavaScriptStartingBefore(50000);
+        try (PrintWriter out = new PrintWriter("responsepage.html")) {
+            out.println(homePage.asXml());
+        }
+        for (int i = 0; i < 20; i++) {
+            System.out.println("Condition: " + homePage.getElementById("voyager-feed").isDisplayed());
+            if (homePage.getElementById("voyager-feed").isDisplayed()) {
+                break;
+            }
+//            if (homePage.getElementById("core-rail").isDisplayed())
+            synchronized (homePage) {
+                homePage.wait(5000);
+            }
+        }
+        try (PrintWriter out = new PrintWriter("page.html")) {
+            out.println(homePage.asXml());
+        }
 
         return homePage;
     }
 
     public static void main(String[] args) throws Exception{
-        new LoginLI().getFeed(new LoginLI().login("andrey.dyachenko@outlook.com", "GfHjkm777"));
+        new LoginLI().getFeed(new LoginLI().login("", ""));
     }
 }
